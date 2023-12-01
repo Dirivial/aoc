@@ -20,8 +20,8 @@ touch a.ts
 touch b.ts
 touch test.txt
 
-echo "const _input = Deno.readFileSync('input.txt');" >a.ts
-echo "const _input = Deno.readFileSync('input.txt');" >b.ts
+echo "const _input = Deno.readTextFile('input.txt');" >a.ts
+echo "const _input = Deno.readTextFile('input.txt');" >b.ts
 
 echo "Fetching input data"
 curl -s "https://adventofcode.com/2023/day/$day/input" --cookie "session=${AOC_SESSION}" -o input.txt
