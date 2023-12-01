@@ -45,9 +45,8 @@ input.forEach((line) => {
   let b = "";
 
   while (a === "") {
-    const substr = line.substring(l);
     for (const valid of validStuff) {
-      if (a === "" && substr.startsWith(valid)) {
+      if (a === "" && line.startsWith(valid, l)) {
         a = valid;
         break;
       }
@@ -55,9 +54,8 @@ input.forEach((line) => {
     l++;
   }
   while (b === "") {
-    const substr = line.substring(r);
     for (const valid of validStuff) {
-      if (substr.startsWith(valid)) {
+      if (line.startsWith(valid, r)) {
         b = valid;
         break;
       }
@@ -65,6 +63,7 @@ input.forEach((line) => {
     r--;
   }
 
+  // "one" -> "1" etc.
   if (translation.has(a)) {
     a = translation.get(a);
   }
