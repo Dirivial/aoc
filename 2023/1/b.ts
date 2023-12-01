@@ -46,7 +46,7 @@ input.forEach((line) => {
 
   while (a === "") {
     for (const valid of validStuff) {
-      if (a === "" && line.startsWith(valid, l)) {
+      if (line.startsWith(valid, l)) {
         a = valid;
         break;
       }
