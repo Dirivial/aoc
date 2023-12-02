@@ -1,35 +1,30 @@
 const _input = await Deno.readTextFile("input.txt");
 
-const input = _input.split("\n");
+const input = _input
+  .split("\n")
+  .map((l) => l.split(":")[1].replaceAll(";", ","));
 
-let sumOfIds = 0;
+let powerSum = 0;
 
 input.forEach((line) => {
-  const [a, b] = line.split(":");
+  const maxxes = [0, 0, 0];
 
-  // b ex. 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
-  const hands = b.split(";"); // Not always three hands
+  // ex. 1 blue, 2 green, 3 green, 4 blue, 1 red, 1 green, 1 blue
+  // -> [1 blue, 2 green, 3 green, 4 blue, 1 red, 1 green, 1 blue]
+  const cubes = line.split(",");
+  cubes.forEach((cubeGroup) => {
+    const numCubes = Number(cubeGroup.trim().split(" ")[0]);
 
-  let maxRed = 0;
-  let maxBlue = 0;
-  let maxGreen = 0;
-
-  hands.forEach((hand) => {
-    const cubes = hand.split(",");
-    cubes.forEach((cubeCount) => {
-      const numCubes = Number(cubeCount.trim().split(" ")[0]);
-      if (cubeCount.includes("red") && numCubes > maxRed) {
-        maxRed = numCubes;
-      } else if (cubeCount.includes("green") && numCubes > maxGreen) {
-        maxGreen = numCubes;
-      } else if (cubeCount.includes("blue") && numCubes > maxBlue) {
-        maxBlue = numCubes;
-      }
-    });
+    if (cubeGroup.includes("red") && numCubes > maxxes[0]) {
+      maxxes[0] = numCubes;
+    } else if (cubeGroup.includes("green") && numCubes > maxxes[1]) {
+      maxxes[1] = numCubes;
+    } else if (cubeGroup.includes("blue") && numCubes > maxxes[2]) {
+      maxxes[2] = numCubes;
+    }
   });
 
-  const power = maxBlue * maxGreen * maxRed;
-  sumOfIds += power;
+  powerSum += maxxes.reduce((p, c) => p * c);
 });
 
-console.log(sumOfIds);
+console.log(powerSum);
