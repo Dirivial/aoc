@@ -9,8 +9,7 @@ let powerSum = 0;
 input.forEach((line) => {
   const maxxes = [0, 0, 0];
 
-  // ex. 1 blue, 2 green, 3 green, 4 blue, 1 red, 1 green, 1 blue
-  // -> [1 blue, 2 green, 3 green, 4 blue, 1 red, 1 green, 1 blue]
+  // Line ex. 1 blue, 2 green, 3 green, 4 blue, 1 red, 1 green, 1 blue
   const cubes = line.split(",");
   cubes.forEach((cubeGroup) => {
     const numCubes = Number(cubeGroup.trim().split(" ")[0]);
