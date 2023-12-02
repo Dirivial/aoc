@@ -1,6 +1,6 @@
 const _input = await Deno.readTextFile("input.txt");
 
-const input = _input.split("\n");
+const input = _input.split("\n").map((l) => l.substring(5));
 
 let sumOfIds = 0;
 
@@ -10,7 +10,7 @@ const maxGreen = 13;
 
 input.forEach((line) => {
   const [a, b] = line.split(":");
-  const gameId = Number(a.split(" ")[1]);
+  const gameId = Number(a);
 
   // b ex. 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
   const hands = b.split(";"); // Not always three hands
