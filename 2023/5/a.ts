@@ -7,8 +7,6 @@ const seeds = input[0]
   .split(" ")
   .map((n) => Number(n));
 
-console.log(seeds);
-
 type XtoYMap = {
   from: string;
   to: string;
@@ -43,10 +41,9 @@ input.forEach((line) => {
     maps[maps.length - 1].rangeMaps.push(rangeMap);
   }
 });
-//console.log(maps);
 
 // Get location number for each seed
-const locationNumbers: number[] = [];
+let lowest = Infinity;
 seeds.forEach((seed) => {
   let n = seed;
   for (let i = 0; i < maps.length; i++) {
@@ -59,9 +56,10 @@ seeds.forEach((seed) => {
       }
     }
   }
-  //console.log(n);
 
-  locationNumbers.push(n);
+  if (lowest > n) {
+    lowest = n;
+  }
 });
 
-console.log(locationNumbers.sort((a, b) => a - b)[0]);
+console.log(lowest);
