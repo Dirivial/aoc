@@ -1,4 +1,4 @@
-const _input = await Deno.readTextFile("test.txt");
+const _input = await Deno.readTextFile("input.txt");
 
 const input = _input.split("\n");
 
@@ -150,31 +150,21 @@ for (let i = 0; i < input.length; i++) {
 console.log(inputScuffed.map((v) => v.join("")));
 
 const isEnc = (x: number, y: number): boolean => {
-  let sumStuff = [0, 0];
+  const sumStuff = [0, 0];
   for (let i = 1; i <= x; i++) {
     switch (inputScuffed[y][x - i]) {
-      case ".":
-        break;
-      case "-":
-        break;
-      default:
+      case "J":
         sumStuff[0]++;
+        break;
+      case "|":
+        sumStuff[0]++;
+        break;
+      case "L":
+        sumStuff[0]++;
+        break;
     }
   }
-  for (let i = x + 1; i < inputScuffed[y].length; i++) {
-    switch (inputScuffed[y][i]) {
-      case ".":
-        break;
-      case "-":
-        break;
-      default:
-        sumStuff[1]++;
-    }
-  }
-  if (sumStuff[0] % 2 === 0 || sumStuff[1] % 2 === 0) {
-    return false;
-  }
-  return true;
+  return sumStuff[0] % 2 === 1;
 };
 
 let sumArea = 0;
@@ -196,14 +186,66 @@ for (let i = 0; i < input.length; i++) {
   const row = [];
   for (let j = 0; j < input[i].length; j++) {
     if (enclosedStuff.has(j + ";" + i)) {
-      row.push("X");
+      row.push("I");
     } else {
-      row.push(inputScuffed[i][j]);
+      if (piped.has(j + ";" + i)) {
+        row.push(".");
+      } else {
+        row.push("O");
+        //row.push(inputScuffed[i][j]);
+      }
     }
   }
   console.log(row.join(""));
 }
 
-console.log();
+let inside = false;
+let lastTurn = "";
+let sumArea2 = 0;
+const insides: string[][] = [];
+for (let i = 0; i < input.length; i++) {
+  insides.push([]);
+  lastTurn = "";
+  inside = false;
+  for (let j = 0; j < input[i].length; j++) {
+    const c = input[i][j];
+    if (piped.has(j + ";" + i)) {
+      switch (c) {
+        case "|":
+          inside = !inside;
+          break;
+        case "F":
+          lastTurn = "F";
+          break;
+        case "L":
+          lastTurn = "L";
+          break;
+        case "7":
+          if (lastTurn === "L") {
+            inside = !inside;
+          }
+          lastTurn = "";
+          break;
+        case "J":
+          if (lastTurn === "F") {
+            inside = !inside;
+          }
+          lastTurn = "";
+          break;
+        default:
+      }
+      insides[i].push(".");
+    } else {
+      if (inside) {
+        sumArea2++;
+        insides[i].push("I");
+      } else {
+        insides[i].push("O");
+      }
+    }
+  }
+}
+console.log(insides.map((v) => v.join("")));
 
 console.log(sumArea);
+console.log(sumArea2);
