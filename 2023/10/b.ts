@@ -1,4 +1,4 @@
-const _input = await Deno.readTextFile("input.txt");
+const _input = await Deno.readTextFile("test.txt");
 
 const input = _input.split("\n");
 
@@ -133,6 +133,12 @@ for (let i = 0; i < input.length; i++) {
           inputScuffed[i].push("L");
         } else if (a == 0 && b == 3) {
           inputScuffed[i].push("J");
+        } else if (a == 1 && b == 3) {
+          inputScuffed[i].push("-");
+        } else if (a == 1 && b == 2) {
+          inputScuffed[i].push("F");
+        } else if (a == 2 && b == 3) {
+          inputScuffed[i].push("7");
         }
       } else {
         inputScuffed[i].push(input[i][j]);
@@ -144,20 +150,31 @@ for (let i = 0; i < input.length; i++) {
 console.log(inputScuffed.map((v) => v.join("")));
 
 const isEnc = (x: number, y: number): boolean => {
-  let sumStuff = 0;
+  let sumStuff = [0, 0];
   for (let i = 1; i <= x; i++) {
     switch (inputScuffed[y][x - i]) {
-      case "|":
-        sumStuff++;
+      case ".":
         break;
-      case "L":
-        sumStuff++;
+      case "-":
         break;
-      case "J":
-        sumStuff++;
+      default:
+        sumStuff[0]++;
     }
   }
-  return sumStuff % 2 === 1;
+  for (let i = x + 1; i < inputScuffed[y].length; i++) {
+    switch (inputScuffed[y][i]) {
+      case ".":
+        break;
+      case "-":
+        break;
+      default:
+        sumStuff[1]++;
+    }
+  }
+  if (sumStuff[0] % 2 === 0 || sumStuff[1] % 2 === 0) {
+    return false;
+  }
+  return true;
 };
 
 let sumArea = 0;
