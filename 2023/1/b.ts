@@ -2,9 +2,8 @@ const _input = await Deno.readTextFile("input.txt");
 
 const input = _input.split("\n");
 
-let sum = 0;
-
 const validStuff = [
+  "zero",
   "one",
   "two",
   "three",
@@ -26,52 +25,26 @@ const validStuff = [
   "9",
 ];
 
-const translation = new Map();
-translation.set("one", "1");
-translation.set("two", "2");
-translation.set("three", "3");
-translation.set("four", "4");
-translation.set("five", "5");
-translation.set("six", "6");
-translation.set("seven", "7");
-translation.set("eight", "8");
-translation.set("nine", "9");
-translation.set("zero", "0");
-
-input.forEach((line) => {
-  let l = 0;
-  let r = line.length - 1;
-  let a = "";
-  let b = "";
-
-  while (a === "") {
-    for (const valid of validStuff) {
-      if (line.startsWith(valid, l)) {
-        a = valid;
-        break;
+let res = 0;
+input.forEach((line: string) => {
+  let a = -1;
+  let b = -1;
+  for (let j = 0; j < line.length; j++) {
+    for (let i = 0; i < validStuff.length; i++) {
+      let front = line.startsWith(validStuff[i], j);
+      if (front && a === -1) {
+        a = i % 10;
+      }
+      let back = line.endsWith(validStuff[i], line.length - j);
+      if (back && b === -1) {
+        b = i % 10;
       }
     }
-    l++;
-  }
-  while (b === "") {
-    for (const valid of validStuff) {
-      if (line.startsWith(valid, r)) {
-        b = valid;
-        break;
-      }
+    if (a !== -1 && b !== -1) {
+      res += a * 10 + b;
+      break;
     }
-    r--;
   }
-
-  // "one" -> "1" etc.
-  if (translation.has(a)) {
-    a = translation.get(a);
-  }
-  if (translation.has(b)) {
-    b = translation.get(b);
-  }
-
-  sum += Number(a + b);
 });
 
-console.log(sum);
+console.log(res);
