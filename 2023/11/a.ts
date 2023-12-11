@@ -5,16 +5,12 @@ const input = _input
   .map((line) => line.split("").map((v) => (v === "#" ? 1 : 0)));
 
 const rowsToExpand = [];
+const columnsToExpand = [];
 
 for (let i = 0; i < input.length; i++) {
   if (!input[i].includes(1)) {
     rowsToExpand.push(i);
   }
-}
-
-const columnsToExpand = [];
-
-for (let i = input[0].length - 1; i > 0; i--) {
   let noGalaxies = true;
   for (let j = 0; j < input.length; j++) {
     if (input[j][i] === 1) {
